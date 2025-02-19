@@ -44,6 +44,20 @@
 /**
  * GPIO config
 **/
+#if WAVESHARE_BOARD
+#define EPD_SCK_PIN  13
+#define EPD_MOSI_PIN 14
+
+#define EPD_CS_PIN   15
+#define EPD_RST_PIN  26
+#define EPD_DC_PIN   27
+#define EPD_BUSY_PIN 25
+
+#define GPIO_PIN_SET   1
+#define GPIO_PIN_RESET 0
+
+#elif !WAVESHARE_BOARD
+
 #define EPD_SCK_PIN  7
 #define EPD_MOSI_PIN 8
 #define EPD_CS_PIN   6
@@ -53,6 +67,7 @@
 
 #define GPIO_PIN_SET   1
 #define GPIO_PIN_RESET 0
+#endif
 
 /**
  * GPIO read and write

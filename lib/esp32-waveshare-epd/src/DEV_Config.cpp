@@ -30,7 +30,11 @@
 #include "DEV_Config.h"
 #include "SPI.h"
 
+#if WAVESHARE_BOARD
+static SPIClass * display_spi = new SPIClass(HSPI);
+#else
 static SPIClass * display_spi = new SPIClass(FSPI);
+#endif
 
 void GPIO_Config(void)
 {    
