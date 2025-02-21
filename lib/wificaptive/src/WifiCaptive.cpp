@@ -118,10 +118,12 @@ void WifiCaptive::setUpWebserver(AsyncWebServer &server, const IPAddress &localI
 		String ssid = data["ssid"];
 		String pswd = data["pswd"];
         String api_server = data["server"];
+        String mac_address = data["mac-address"];
 		_ssid = ssid;
 		_password = pswd;
         _api_server = api_server;
-		String mac = WiFi.macAddress();
+        _mac_address = mac_address;
+        String mac = WiFi.macAddress();
 		String message =  "{\"ssid\":\"" + _ssid +"\",\"mac\":\"" + mac +"\"}";
 		request->send(200, "application/json", message); });
 
@@ -193,6 +195,7 @@ bool WifiCaptive::startPortal()
             {
                 saveWifiCredentials(_ssid, _password);
                 saveApiServer(_api_server);
+                saveMacAddress(_mac_address);
                 succesfullyConnected = true;
                 break;
             }
@@ -379,6 +382,17 @@ void WifiCaptive::saveApiServer(String url)
     Preferences preferences;
     preferences.begin("data", false);
     preferences.putString("api_url", url);
+    preferences.end();
+}
+
+void WifiCaptive::saveMacAddress(String address)
+{
+    // if not address is provided, don't save a preference and fall back to device mac address
+    if (address == "")
+        return;
+    Preferences preferences;
+    preferences.begin("data", false);
+    preferences.putString("mac_address", address);
     preferences.end();
 }
 

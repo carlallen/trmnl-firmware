@@ -339,6 +339,7 @@
       var ssid = document.getElementById('ssid').value;
       var pswd = document.getElementById('password').value;
       var server = document.getElementById('server').value;
+      var mac_address = document.getElementById('mac-address').value;
       if (!ssid) {
         displayAlert('Please enter your Wi-Fi name', "warning");
         return;
@@ -363,7 +364,7 @@
       server = server.trim();
       server = server.replace(/\/+$/, '');
 
-      var body = { ssid: ssid, pswd: pswd, server: server };
+      var body = { ssid: ssid, pswd: pswd, server: server, "mac-address": mac_address };
 
       showLoader();
       fetch('/connect', {
@@ -593,9 +594,13 @@
       <input type="password" id="password" name="password" pattern=".{8,}" placeholder="Enter your Wi-Fi password">
       <i id="toggler" class="bi bi-eye" onclick="togglePassword()"></i>
     </div>
-    <div class="form-group" id="custom_server_form_group" style="display: none;">
+    <div class="form-group custom_server_form_group" id="custom_server_form_group" style="display: none;">
       <label for="server">API Server</label>
       <input type="url" id="server" name="server" placeholder="Enter your custom server without a trailing / (e.g. https://trmnl.app)">
+    </div>
+    <div class="form-group">
+      <label for="mac-address">MAC Address Override</label>
+      <input id="mac-address" name="mac-address" placeholder="ORDER_1000:BYOD:A1AAAA">
     </div>
     <div class="form-group">
       <div class="alert alert-primary" id="message" role="alert" style="display: none;"></div>

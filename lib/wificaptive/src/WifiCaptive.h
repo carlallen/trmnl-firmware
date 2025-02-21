@@ -55,6 +55,7 @@ private:
     String _ssid = "";
     String _password = "";
     String _api_server = "";
+    String _mac_address = "";
 
     std::function<void()> _resetcallback;
 
@@ -70,6 +71,7 @@ private:
     void saveWifiCredentials(String ssid, String pass);
     void saveLastUsed(String ssid, String pass);
     void saveApiServer(String url);
+    void saveMacAddress(String address);
     std::vector<WifiCredentials> matchNetworks(std::vector<Network> &scanResults, WifiCaptive::WifiCredentials wifiCredentials[]);
     std::vector<Network> getScannedUniqueNetworks(bool runScan);
     std::vector<Network> combineNetworks(std::vector<Network> &scanResults, WifiCaptive::WifiCredentials wifiCredentials[]);

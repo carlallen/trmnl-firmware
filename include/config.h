@@ -10,6 +10,7 @@
 #define PREFERENCES_API_KEY "api_key"
 #define PREFERENCES_API_KEY_DEFAULT ""
 #define PREFERENCES_API_URL "api_url"
+#define PREFERENCES_MAC_ADDRESS "mac_address"
 #define PREFERENCES_FRIENDLY_ID "friendly_id"
 #define PREFERENCES_FRIENDLY_ID_DEFAULT ""
 #define PREFERENCES_SLEEP_TIME_KEY "refresh_rate"

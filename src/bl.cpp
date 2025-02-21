@@ -545,7 +545,7 @@ static https_request_err_e downloadAndShow()
 
     float battery_voltage = readBatteryVoltage();
 
-    Log.info("%s [%d]: Added headers:\n\rID: %s\n\rSpecial function: %d\n\rAccess-Token: %s\n\rRefresh_Rate: %s\n\rBattery-Voltage: %s\n\rFW-Version: %s\r\nRSSI: %s\r\n", __FILE__, __LINE__, WiFi.macAddress().c_str(), special_function, api_key.c_str(), String(refresh_rate).c_str(), String(battery_voltage).c_str(), fw_version.c_str(), String(WiFi.RSSI()));
+    Log.info("%s [%d]: Added headers:\n\rID: %s\n\rSpecial function: %d\n\rAccess-Token: %s\n\rRefresh_Rate: %s\n\rBattery-Voltage: %s\n\rFW-Version: %s\r\nRSSI: %s\r\n", __FILE__, __LINE__, preferences.getString(PREFERENCES_MAC_ADDRESS, WiFi.macAddress()).c_str(), special_function, api_key.c_str(), String(refresh_rate).c_str(), String(battery_voltage).c_str(), fw_version.c_str(), String(WiFi.RSSI()));
 
     if (!https.begin(*client, new_url))
     {
@@ -558,7 +558,7 @@ static https_request_err_e downloadAndShow()
     Log.info("%s [%d]: [HTTPS] GET...\r\n", __FILE__, __LINE__);
     Log.info("%s [%d]: [HTTPS] GET Route: %s\r\n", __FILE__, __LINE__, new_url);
     // start connection and send HTTP header
-    https.addHeader("ID", WiFi.macAddress());
+    https.addHeader("ID", preferences.getString(PREFERENCES_MAC_ADDRESS, WiFi.macAddress()));
     https.addHeader("Access-Token", api_key);
     https.addHeader("Refresh-Rate", String(refresh_rate));
     https.addHeader("Battery-Voltage", String(battery_voltage));
@@ -1263,8 +1263,8 @@ static void getDeviceCredentials()
         Log.info("%s [%d]: [HTTPS] GET...\r\n", __FILE__, __LINE__);
         // start connection and send HTTP header
 
-        https.addHeader("ID", WiFi.macAddress());
-        Log.info("%s [%d]: Device MAC address: %s\r\n", __FILE__, __LINE__, WiFi.macAddress().c_str());
+        https.addHeader("ID", preferences.getString(PREFERENCES_MAC_ADDRESS, WiFi.macAddress()));
+        Log.info("%s [%d]: Device MAC address: %s\r\n", __FILE__, __LINE__, preferences.getString(PREFERENCES_MAC_ADDRESS, WiFi.macAddress()).c_str());
 
         int httpCode = https.GET();
 
@@ -1648,6 +1648,9 @@ static float readBatteryVoltage(void)
   for (uint8_t i = 0; i < 128; i++)
   {
     adc += analogReadMilliVolts(PIN_BATTERY);
+  }
+  if (adc == 0) {
+    return 4.2;
   }
 
   int32_t sensorValue = (adc / 128) * 2;
